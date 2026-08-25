@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PUBG HACK PRO v6.9</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+    body {
+      background: transparent;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* Main Troll Panel */
+    #trollPanel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 290px;
+      background: rgba(8, 8, 16, 0.92);
+      backdrop-filter: blur(14px);
+      border: 2px solid #ff3366;
+      border-radius: 18px;
+      padding: 18px;
+      color: #f0e6e6;
+      box-shadow: 0 0 50px rgba(255, 51, 102, 0.3);
+      z-index: 9999;
+      pointer-events: auto;
+      cursor: grab;
+      transition: border-color 0.3s;
+    }
+    #trollPanel:hover {
+      border-color: #ff6699;
+    }
+    #trollPanel:active {
+      cursor: grabbing;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #ff336644;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    .header h1 {
+      font-size: 22px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ff3366, #ff00cc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+    }
+    .header .badge {
+      font-size: 11px;
+      background: #ff336622;
+      padding: 2px 12px;
+      border-radius: 30px;
+      border: 1px solid #ff3366;
+      color: #ff6699;
+      -webkit-text-fill-color: #ff6699;
+    }
+
+    .toggle-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 14px;
+    }
+    .toggle-item .label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Switch - stays looking legit */
+    .switch {
+      position: relative;
+      width: 40px;
+      height: 20px;
+      background: #2a2a3a;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+      flex-shrink: 0;
+    }
+    .switch.active {
+      background: #ff3366;
+      box-shadow: 0 0 20px #ff336688;
+    }
+    .switch::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    .switch.active::after {
+      left: 22px;
+    }
+
+    /* Fake Radar with LIES */
+    #radar {
+      margin: 12px 0;
+      background: #0a0a12;
+      border-radius: 12px;
+      border: 1px solid #ff336644;
+      width: 100%;
+      aspect-ratio: 1/1;
+      position: relative;
+      overflow: hidden;
+    }
+    #radar canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Status Bar - Always says "UNDETECTED" but lies */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #aa8899;
+      background: #0a0a12;
+      padding: 6px 12px;
+      border-radius: 8px;
+      margin: 10px 0 8px 0;
+      border: 1px solid #2a1a1a;
+    }
+    .status-bar .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #ff3366;
+      border-radius: 50%;
+      margin-right: 6px;
+      animation: pulse 0.7s infinite alternate;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0.2; transform: scale(0.6); }
+    }
+
+    /* Troll Console */
+    #trollConsole {
+      background: #0a0a12;
+      border-radius: 8px;
+      padding: 6px 10px;
+      max-height: 70px;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #cc99aa;
+      border: 1px solid #2a1a1a;
+      margin-top: 6px;
+      line-height: 1.7;
+    }
+    #trollConsole .log-entry.danger {
+      color: #ff4466;
+    }
+    #trollConsole .log-entry.success {
+      color: #66ffaa;
+    }
+    #trollConsole .log-entry.warn {
+      color: #ffaa44;
+    }
+
+    /* Buttons - one "Inject" (actually trolls), one "Panic" (minimizes) */
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .btn-group button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.2s;
+      letter-spacing: 1px;
+    }
+    .btn-inject {
+      background: linear-gradient(135deg, #ff3366, #cc0044);
+      color: white;
+      box-shadow: 0 0 20px #ff336644;
+    }
+    .btn-inject:hover {
+      transform: scale(1.04);
+    }
+    .btn-panic {
+      background: #1a1a2a;
+      color: #ff6699;
+      border: 1px solid #ff336644;
+    }
+    .btn-panic:hover {
+      background: #2a1a2a;
+    }
+
+    /* Overlay - Fake "Anti-Cheat" scare screen */
+    #scareOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 99999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: #ff2244;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      padding: 20px;
+    }
+    #scareOverlay h1 {
+      font-size: 48px;
+      text-shadow: 0 0 60px #ff2244;
+      animation: glitch 0.5s infinite alternate;
+    }
+    #scareOverlay p {
+      font-size: 20px;
+      color: #ff6688;
+      margin-top: 10px;
+      max-width: 500px;
+    }
+    #scareOverlay .fake-progress {
+      width: 300px;
+      height: 8px;
+      background: #1a0a0a;
+      border-radius: 10px;
+      margin-top: 30px;
+      overflow: hidden;
+    }
+    #scareOverlay .fake-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #ff2244;
+      animation: scareFill 2.5s linear forwards;
+    }
+    @keyframes scareFill {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+    @keyframes glitch {
+      0% { transform: skew(0deg); opacity: 1; }
+      100% { transform: skew(5deg); opacity: 0.6; }
+    }
+    #scareOverlay .btn-close-scare {
+      margin-top: 40px;
+      padding: 12px 40px;
+      background: #ff2244;
+      border: none;
+      border-radius: 40px;
+      color: black;
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 0 40px #ff224488;
+    }
+
+    /* Toast for trolling */
+    #toast {
+      position: fixed;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 34, 68, 0.9);
+      padding: 12px 28px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 15px;
+      color: white;
+      box-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
+      display: none;
+      z-index: 9999;
+      pointer-events: none;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== TROLL PANEL ===== -->
+<div id="trollPanel">
+  <div class="header">
+    <h1>🔥 HACK PRO</h1>
+    <span class="badge">v6.9</span>
+  </div>
+
+  <!-- Toggles - ALL of them are broken on purpose -->
+  <div class="toggle-item">
+    <span class="label">👁️ ESP Wallhack</span>
+    <div class="switch active" onclick="trollToggle(this, 'ESP enabled... but it shows teammates as enemies!')"></div>
+  </div>
+  <div class="toggle-item">
+    <span class="label">🎯 Aimbot</span>
+    <div class="switch active" onclick="trollToggle(this, 'Aimbot locked... onto the sky!')"></div>
+  </div>
+  <div class="toggle-item">
+    <span class="label">💀 Magic Bullet</span>
+    <div class="switch" onclick="trollToggle(this, 'Magic Bullet active → bullets go backwards!')"></div>
+  </div>
+  <div class="toggle-item">
+    <span class="label">🚀 No Recoil</span>
+    <div class="switch active" onclick="trollToggle(this, 'No Recoil? Recoil is now ×10!')"></div>
+  </div>
+  <div class="toggle-item">
+    <span class="label">🛡️ Anti-Ban</span>
+    <div class="switch" onclick="trollToggle(this, 'Anti-Ban = you are now flagged. Good luck!')"></div>
+  </div>
+
+  <!-- Radar with fake enemies -->
+  <div id="radar"><canvas id="radarCanvas"></canvas></div>
+
+  <!-- Status Bar - fake confidence -->
+  <div class="status-bar">
+    <span><span class="dot"></span> Status: <span id="sysStatus">UNDETECTED</span></span>
+    <span>Players: <span id="playerCount">47</span></span>
+  </div>
+
+  <!-- Troll Console -->
+  <div id="trollConsole">
+    <div class="log-entry success">> System injected</div>
+    <div class="log-entry warn">> ESP calibration failed – reversing...</div>
+    <div class="log-entry danger">> Aim assist misaligned!</div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-group">
+    <button class="btn-inject" id="injectBtn">💉 INJECT (LOL)</button>
+    <button class="btn-panic" id="panicBtn">😱 PANIC</button>
+  </div>
+</div>
+
+<!-- ===== SCARE OVERLAY (Fake anti-cheat) ===== -->
+<div id="scareOverlay">
+  <h1>⚠️ ANTI-CHEAT DETECTED</h1>
+  <p>Your account has been flagged. Ban in progress...</p>
+  <div class="fake-progress"><div class="fake-progress-bar"></div></div>
+  <button class="btn-close-scare" onclick="closeScare()">I'M SCARED, TURN IT OFF</button>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div id="toast">💀 You just got trolled!</div>
+
+<script>
+  // ========== TROLL TOGGLE ==========
+  function trollToggle(el, message) {
+    el.classList.toggle('active');
+    const label = el.closest('.toggle-item').querySelector('.label').textContent.trim();
+    // Always show a toxic message
+    const msgs = [
+      `🤡 ${label} → BROKEN (as intended)`,
+      `😂 ${label} now trolls you instead`,
+      `💀 ${label} → you just lost 10 IQ`,
+      `🔥 ${label} → activated brain damage`
+    ];
+    const randomMsg = msgs[Math.floor(Math.random() * msgs.length)];
+    addLog(randomMsg, 'danger');
+    showToast(message || '⚡ You got pranked!');
+    // Randomly trigger fake scare
+    if (Math.random() > 0.7) {
+      setTimeout(triggerScare, 500);
+    }
+    // Randomly flash the screen red
+    if (Math.random() > 0.8) {
+      flashScreen();
+    }
+  }
+
+  // ========== TOAST ==========
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    clearTimeout(t._hide);
+    t._hide = setTimeout(() => { t.style.display = 'none'; }, 2500);
+  }
+
+  // ========== CONSOLE LOG ==========
+  function addLog(msg, type = '') {
+    const cons = document.getElementById('trollConsole');
+    const entry = document.createElement('div');
+    entry.className = 'log-entry' + (type ? ' ' + type : '');
+    entry.textContent = '> ' + msg;
+    cons.appendChild(entry);
+    cons.scrollTop = cons.scrollHeight;
+    if (cons.children.length > 25) cons.removeChild(cons.firstChild);
+  }
+
+  // ========== RADAR – shows ENEMIES EVERYWHERE (lies) ==========
+  function initRadar() {
+    const canvas = document.getElementById('radarCanvas');
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width * 2;
+    canvas.height = rect.height * 2;
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height;
+    const cx = w/2, cy = h/2;
+    const maxR = Math.min(w, h) / 2 - 20;
+
+    // Create 30 fake "enemies" that move erratically
+    const dots = [];
+    for (let i = 0; i < 30; i++) {
+      dots.push({
+        angle: Math.random() * Math.PI * 2,
+        dist: Math.random() * maxR * 0.95,
+        speed: (0.02 + Math.random() * 0.04) * (Math.random() > 0.5 ? 1 : -1),
+        size: 4 + Math.random() * 8,
+        color: `hsl(${340 + Math.random() * 30}, 90%, 60%)` // red/pink tones
+      });
+    }
+
+    function drawRadar() {
+      ctx.clearRect(0, 0, w, h);
+      // Grid (circles)
+      for (let r = 30; r <= maxR; r += 30) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI*2);
+        ctx.strokeStyle = 'rgba(255,51,102,0.1)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+      // Cross
+      ctx.strokeStyle = 'rgba(255,51,102,0.07)';
+      ctx.beginPath();
+      ctx.moveTo(cx - maxR, cy);
+      ctx.lineTo(cx + maxR, cy);
+      ctx.moveTo(cx, cy - maxR);
+      ctx.lineTo(cx, cy + maxR);
+      ctx.stroke();
+
+      // Update and draw fake enemies
+      dots.forEach(d => {
+        d.angle += d.speed;
+        // Random jitter to make it look broken
+        const jitter = 1 + 0.3 * Math.sin(Date.now() / 300 + d.angle);
+        const x = cx + Math.cos(d.angle) * d.dist * jitter;
+        const y = cy + Math.sin(d.angle) * d.dist * jitter;
+        ctx.beginPath();
+        ctx.arc(x, y, d.size/2, 0, Math.PI*2);
+        ctx.fillStyle = d.color;
+        ctx.shadowColor = '#ff2244';
+        ctx.shadowBlur = 20;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        // Add a crosshair on each (makes it look "hacked")
+        ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x - 5, y);
+        ctx.lineTo(x + 5, y);
+        ctx.moveTo(x, y - 5);
+        ctx.lineTo(x, y + 5);
+        ctx.stroke();
+      });
+
+      // Your "player" – but it's also lying (shows you as red)
+      ctx.beginPath();
+      ctx.arc(cx, cy, 10, 0, Math.PI*2);
+      ctx.fillStyle = '#ff3366';
+      ctx.shadowColor = '#ff3366';
+      ctx.shadowBlur = 40;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      // Fake "you are being targeted" text
+      ctx.fillStyle = '#ff224466';
+      ctx.font = '18px monospace';
+      ctx.fillText('⚠️ YOU ARE HERE', cx + 20, cy - 10);
+
+      requestAnimationFrame(drawRadar);
+    }
+    drawRadar();
+  }
+
+  // ========== SCARE OVERLAY ==========
+  function triggerScare() {
+    const overlay = document.getElementById('scareOverlay');
+    overlay.style.display = 'flex';
+    // Reset progress bar animation
+    const bar = document.querySelector('.fake-progress-bar');
+    bar.style.animation = 'none';
+    void bar.offsetWidth; // reflow
+    bar.style.animation = 'scareFill 2.5s linear forwards';
+    addLog('🚨 ANTI-CHEAT TRIGGERED! (just kidding)', 'danger');
+    showToast('😱 BAN WARNING! PANIC!');
+    // Play fake beep sound (Web Audio)
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.frequency.value = 800;
+      osc.type = 'square';
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      osc.start();
+      setTimeout(() => { osc.stop(); }, 300);
+    } catch(e) {}
+  }
+
+  function closeScare() {
+    document.getElementById('scareOverlay').style.display = 'none';
+    addLog('✅ Phew! It was a false alarm... or was it?', 'success');
+    showToast('🤡 You fell for it!');
+  }
+
+  // ========== FLASH SCREEN ==========
+  function flashScreen() {
+    const flash = document.createElement('div');
+    flash.style.cssText = `
+      position: fixed; top:0; left:0; width:100%; height:100%;
+      background: red; z-index:99998; pointer-events:none;
+      opacity:0.4; transition: opacity 0.1s;
+    `;
+    document.body.appendChild(flash);
+    setTimeout(() => {
+      flash.style.opacity = '0';
+      setTimeout(() => flash.remove(), 200);
+    }, 150);
+  }
+
+  // ========== PANIC BUTTON – minimizes window (simulated) ==========
+  function panic() {
+    showToast('😱 PANIC MODE: Hiding hack...');
+    addLog('PANIC: Hiding window...', 'warn');
+    // Simulate window minimizing by moving panel off-screen
+    const panel = document.getElementById('trollPanel');
+    panel.style.transition = 'transform 0.4s ease-in';
+    panel.style.transform = 'translateY(120vh)';
+    setTimeout(() => {
+      panel.style.transform = 'translateY(0)';
+      showToast('😂 Just kidding! You\'re still here!');
+      addLog('Panic failed. You are now exposed.', 'danger');
+      // Trigger scare as extra troll
+      setTimeout(triggerScare, 500);
+    }, 2000);
+  }
+
+  // ========== INJECTION – does nothing but trolls ==========
+  function fakeInject() {
+    showToast('💉 INJECTING... just kidding, you got trolled!');
+    addLog('Injecting malware... no wait, just a prank.', 'warn');
+    addLog('Your PC is fine. But your gameplay isn\'t.', 'danger');
+    // Random toggle all switches
+    document.querySelectorAll('.switch').forEach((sw, idx) => {
+      setTimeout(() => {
+        sw.classList.toggle('active');
+        const label = sw.closest('.toggle-item').querySelector('.label').textContent.trim();
+        addLog(`${label} → toggled randomly (you can't control it)`, 'danger');
+      }, idx * 400);
+    });
+    // Flash screen
+    flashScreen();
+    // Random scare
+    if (Math.random() > 0.5) {
+      setTimeout(triggerScare, 1500);
+    }
+  }
+
+  // ========== DRAG PANEL ==========
+  const panel = document.getElementById('trollPanel');
+  let isDragging = false, offsetX, offsetY;
+  panel.addEventListener('mousedown', (e) => {
+    if (e.target.closest('.switch') || e.target.closest('button')) return;
+    isDragging = true;
+    offsetX = e.clientX - panel.offsetLeft;
+    offsetY = e.clientY - panel.offsetTop;
+    panel.style.cursor = 'grabbing';
+  });
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    panel.style.left = (e.clientX - offsetX) + 'px';
+    panel.style.top = (e.clientY - offsetY) + 'px';
+    panel.style.right = 'auto';
+  });
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+    panel.style.cursor = 'grab';
+  });
+
+  // ========== INIT ==========
+  window.addEventListener('load', () => {
+    initRadar();
+    addLog('🔥 Troll Hack ready. You are now the troll.', 'success');
+    addLog('💀 Every feature will make you lose. Enjoy!', 'warn');
+
+    // Random console spam every few seconds
+    setInterval(() => {
+      const trollMsgs = [
+        'ESP showing wrong positions...',
+        'Aimbot locked onto your own team!',
+        'Recoil increased by 500%',
+        'Magic bullet hits you instead',
+        'Anti-Ban = you are reported'
+      ];
+      addLog(trollMsgs[Math.floor(Math.random() * trollMsgs.length)], 'danger');
+    }, 8000);
+
+    // Random player count (ridiculous numbers)
+    setInterval(() => {
+      const pc = document.getElementById('playerCount');
+      const val = parseInt(pc.textContent) + Math.floor(Math.random() * 10 - 5);
+      pc.textContent = Math.max(2, val);
+    }, 4000);
+
+    // Status bar randomly says "DETECTED"
+    setInterval(() => {
+      const status = document.getElementById('sysStatus');
+      if (Math.random() > 0.7) {
+        status.textContent = '🚨 DETECTED';
+        status.style.color = '#ff2244';
+        setTimeout(() => {
+          status.textContent = 'UNDETECTED';
+          status.style.color = '#f0e6e6';
+        }, 3000);
+      }
+    }, 5000);
+  });
+
+  // Button events
+  document.getElementById('injectBtn').addEventListener('click', fakeInject);
+  document.getElementById('panicBtn').addEventListener('click', panic);
+
+  // Double-click on panel = instant scare
+  panel.addEventListener('dblclick', () => {
+    triggerScare();
+    showToast('👻 BOO! Stop double-clicking!');
+  });
+</script>
+</body>
+</html>
