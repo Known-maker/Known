@@ -4,16 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔥 Apex Mod | PUBG Mobile</title>
-    <!-- Google Fonts for clean typography -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ---------- RESET & BASE ---------- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background: #0b0b12;
@@ -22,12 +15,9 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            /* Animated gradient background */
             background: radial-gradient(circle at 20% 30%, #141425, #07070e);
             overflow-x: hidden;
         }
-
-        /* Subtle background glow orbs */
         body::before {
             content: '';
             position: fixed;
@@ -52,13 +42,10 @@
             z-index: 0;
             animation: floatOrb 15s infinite alternate-reverse ease-in-out;
         }
-
         @keyframes floatOrb {
             0% { transform: translate(0, 0) scale(1); }
             100% { transform: translate(40px, 40px) scale(1.2); }
         }
-
-        /* ---------- MAIN CARD (GLASSMORPHISM) ---------- */
         .card {
             position: relative;
             z-index: 1;
@@ -74,12 +61,7 @@
             transition: transform 0.3s ease;
             text-align: center;
         }
-
-        .card:hover {
-            transform: translateY(-4px);
-        }
-
-        /* ---------- BADGE / TAG ---------- */
+        .card:hover { transform: translateY(-4px); }
         .badge {
             display: inline-block;
             background: linear-gradient(135deg, #00c6ff, #0072ff);
@@ -93,8 +75,6 @@
             margin-bottom: 24px;
             border: 1px solid rgba(255, 255, 255, 0.15);
         }
-
-        /* ---------- TITLE ---------- */
         .title {
             font-size: 42px;
             font-weight: 800;
@@ -105,7 +85,6 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         .subtitle {
             color: rgba(255, 255, 255, 0.5);
             font-weight: 400;
@@ -113,8 +92,6 @@
             letter-spacing: 1px;
             margin-bottom: 30px;
         }
-
-        /* ---------- FEATURE GRID ---------- */
         .features {
             display: flex;
             flex-wrap: wrap;
@@ -122,7 +99,6 @@
             gap: 12px;
             margin-bottom: 40px;
         }
-
         .feature-item {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.06);
@@ -135,18 +111,12 @@
             transition: all 0.2s ease;
             letter-spacing: 0.3px;
         }
-
         .feature-item:hover {
             background: rgba(0, 180, 255, 0.1);
             border-color: rgba(0, 180, 255, 0.3);
             transform: scale(1.02);
         }
-
-        .feature-item .icon {
-            margin-right: 8px;
-        }
-
-        /* ---------- DOWNLOAD BUTTON ---------- */
+        .feature-item .icon { margin-right: 8px; }
         .download-btn {
             display: inline-flex;
             align-items: center;
@@ -168,18 +138,12 @@
             max-width: 340px;
             margin: 0 auto 18px auto;
         }
-
         .download-btn:hover {
             transform: scale(1.03);
             box-shadow: 0 12px 40px rgba(0, 114, 255, 0.55);
             background: linear-gradient(135deg, #0088ff, #00d4ff);
         }
-
-        .download-btn:active {
-            transform: scale(0.97);
-        }
-
-        /* Pulse animation for the button */
+        .download-btn:active { transform: scale(0.97); }
         .download-btn .pulse {
             display: inline-block;
             width: 12px;
@@ -189,21 +153,17 @@
             margin-right: 6px;
             animation: pulseDot 1.8s infinite;
         }
-
         @keyframes pulseDot {
             0% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.3; transform: scale(1.6); }
             100% { opacity: 1; transform: scale(1); }
         }
-
         .file-info {
             font-size: 13px;
             color: rgba(255, 255, 255, 0.3);
             margin-bottom: 35px;
             font-weight: 300;
         }
-
-        /* ---------- WARNING BOX ---------- */
         .warning-box {
             background: rgba(255, 50, 50, 0.06);
             border-left: 3px solid #ff4d4d;
@@ -212,7 +172,6 @@
             margin-top: 20px;
             text-align: left;
         }
-
         .warning-box p {
             color: rgba(255, 150, 150, 0.8);
             font-size: 13px;
@@ -220,12 +179,7 @@
             line-height: 1.6;
             margin: 0;
         }
-
-        .warning-box strong {
-            color: #ff7a7a;
-        }
-
-        /* ---------- FOOTER ---------- */
+        .warning-box strong { color: #ff7a7a; }
         .footer {
             margin-top: 30px;
             color: rgba(255, 255, 255, 0.15);
@@ -233,43 +187,21 @@
             font-weight: 300;
             letter-spacing: 0.5px;
         }
-
-        /* ---------- RESPONSIVE ---------- */
         @media (max-width: 500px) {
-            .card {
-                padding: 40px 24px;
-                border-radius: 32px;
-            }
-            .title {
-                font-size: 30px;
-            }
-            .features {
-                gap: 8px;
-            }
-            .feature-item {
-                font-size: 12px;
-                padding: 8px 14px;
-            }
-            .download-btn {
-                font-size: 17px;
-                padding: 16px 30px;
-                max-width: 100%;
-            }
+            .card { padding: 40px 24px; border-radius: 32px; }
+            .title { font-size: 30px; }
+            .features { gap: 8px; }
+            .feature-item { font-size: 12px; padding: 8px 14px; }
+            .download-btn { font-size: 17px; padding: 16px 30px; max-width: 100%; }
         }
     </style>
 </head>
 <body>
-
     <div class="card">
-
-        <!-- Badge -->
         <div class="badge">🚀 Latest Version v4.6</div>
-
-        <!-- Title -->
         <h1 class="title">Apex Mod</h1>
         <p class="subtitle">PUBG MOBILE · Premium Unlocked</p>
 
-        <!-- Feature Tags -->
         <div class="features">
             <span class="feature-item"><span class="icon">🎯</span> Aimbot</span>
             <span class="feature-item"><span class="icon">👁️</span> ESP Boxes</span>
@@ -278,14 +210,13 @@
             <span class="feature-item"><span class="icon">🛡️</span> Anti-Ban</span>
         </div>
 
-        <!-- Download Button -->
+        <!-- ========== NOW POINTS TO THE UPLOADED APK ========== -->
         <a href="PUBG_Mod.apk" class="download-btn" download>
             <span class="pulse"></span> 
             Download APK
         </a>
         <div class="file-info">📦 198 MB · Compatible with Android 8.0+</div>
 
-        <!-- ⚠️ Ban Warning -->
         <div class="warning-box">
             <p>
                 <strong>⚠️ ACCOUNT WARNING:</strong> 
@@ -294,13 +225,7 @@
                 Use only on <strong>alternative / guest accounts</strong> at your own risk.
             </p>
         </div>
-
-        <div class="footer">
-            For educational & testing purposes only.
-        </div>
-
+        <div class="footer">For educational & testing purposes only.</div>
     </div>
-
 </body>
-</html>
-
+</html
