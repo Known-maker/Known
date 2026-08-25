@@ -1,4 +1,4 @@
-# 🔥 PUBG Troll Hack – Prank Your Cheating Friends
+# 🔥 PUBG Hack – Cheating
 
 > "It looks legit, but it's designed to make you lose."
 
